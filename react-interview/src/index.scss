@@ -1,0 +1,220 @@
+$Grayscale-White: #FFFFFF;
+$Grayscale-OffWhite: #F5F5F5;
+$Grayscale-InputBack: #F1F2F3;
+$Grayscale-Labels: #97999B;
+$Grayscale-Body: #626275;
+$Grayscale-Black: #000000;
+$Grayscale-Black50: #00000080;
+$Primary-IntusBlue: #4D7EF8;
+$Primary-IntusBlue50: #4D7EF880;
+$Primary-IntusNavy: #062D8F;
+
+@font-face {
+  font-family: "Mulish";
+  src: local("Mulish"),
+    url("/Mulish-Regular.ttf") format("truetype");
+}
+
+html {  
+  background-color: $Grayscale-OffWhite;
+}
+
+.App-container, .NavBar-container  {
+  max-width: 100% !important;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  display: flex;
+  justify-content: left;
+  color: #000000;
+}
+
+.NavBar-container {
+  box-shadow: 0px 0px 1rem $Grayscale-Black50;
+  background-color: $Grayscale-White;
+}
+
+.navbar {
+  padding: 0px !important;
+}
+
+.NavBar-container img {
+  margin: 12px;
+}
+
+.App-body {
+  padding: 24px;
+  background-color: $Grayscale-OffWhite;
+  display: flex;
+  flex: 1;
+  height: 100%;
+  flex-direction: column;
+  color: #000000;
+}
+
+body {
+  margin: 0;
+  font-weight: normal;
+  font-size: 20px;
+}
+
+h2, h3, body {
+  font-family: Mulish, Arial, sans-serif;
+}
+
+h2, h3 {
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+.participantsCard, .individualCard {
+  overflow-y: auto;
+  background-color: $Grayscale-White;
+}
+
+.participantsPageBody, .individualPageBody {
+  padding-left: 40px !important;
+  padding-right: 40px !important;
+}
+
+.participantsPageBody {
+  height: calc(100vh - 200px); /*The 200px is hard coded to fill the remainder of the page, this can be improved so it's more flexible. */
+  display: grid;  /*This can be deleted so that it uses the browser page's scrollbar instead of the card's and the card goes all the way to the bottom of the page. */
+}
+
+.individualPageBody {
+  height: calc(100vh - 126px); /*The 126px is hard coded to fill the remainder of the page, this can be improved so it's more flexible. */
+}
+
+.participantsHeader {
+  @extend h2;  
+  color: $Primary-IntusNavy;
+  margin-bottom: 20px;
+}
+
+.participantsTable {
+  width: 100%;
+}
+
+.participantsTable th {
+  @extend body;
+  color: $Grayscale-Labels;
+  padding: 6px;
+}
+
+.tableHeaderRow {
+  border-bottom: 1pt solid $Grayscale-Labels;
+}
+
+.particpantNameHeader, .particpantName {
+  width: 70%;
+}
+
+.card {
+  box-shadow: 0px 0.4px 0.4rem 0.06rem $Grayscale-Black50;
+  //border: none !important;  //The instructions said to use border: none, but it causes the page to move when you hover over a card
+  border: 2px solid #00000000 !important; //Made an invisible 2px border instead of none so the page doesn't move when you hover over a participant card, so I just made it 2px and invisible
+  border-radius: 10px !important;
+}
+
+.individualPageBody {
+  display: flex;
+  justify-content: center;
+}
+
+.individualCard {
+  width: 70%;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.backButton {
+  position: absolute;
+  --bs-btn-bg: #4D7EF8 !important; //$Primary-IntusBlue
+  border: none !important;
+  padding: 10px 30px 10px 30px !important;
+  left: 20px;
+}
+
+.backButton h3 {
+  margin: 0px !important;
+}
+
+.participantRowCard {
+  @extend .card;
+  padding: 20px;
+  margin-top: 20px;
+  background-color: $Grayscale-White !important;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.participantRowCard:hover {
+  border: 2px solid $Primary-IntusBlue50 !important; //I think it would look nicer with 4px
+}
+
+.participantRowCard:active {
+  background-color: $Primary-IntusBlue50 !important; //The background color of the card changes on mouse down
+}
+
+.sortButton {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+.particpantName {
+  @extend body;
+  color: $Grayscale-Body;
+}
+
+.particpantIcdCount {
+  @extend body;
+  color: $Primary-IntusNavy;
+  padding-left: 13px;
+}
+
+.individualParticpantNameHeader {
+  color: $Grayscale-Body;
+}
+
+.icdHeader {
+  @extend body;
+  color: $Grayscale-Labels;
+  padding: 12px 0px 12px 0px;
+}
+
+.icdEntries {
+  margin: 0px 20px 0px 20px;
+}
+
+.icdEntry {
+  background-color: $Grayscale-InputBack;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.icdEntryName {
+  @extend body;
+  color: $Grayscale-Black;
+  width: 90%;
+}
+
+.icdEntryCode {
+  @extend body;
+  position: absolute;
+  right: 6px; //This will work for the longhest ICD-10 codes, but not the other longer codes within icdCode.js
+  width: 11%;
+  color: $Grayscale-Body;
+}
