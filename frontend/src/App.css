@@ -1,0 +1,38 @@
+body {
+  background-color: #E5E5E5;
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+  font-size: 20px;
+  font-family: Mulish, Arial, sans-serif;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: 28px;
+  font-family: Mulish, Arial, sans-serif;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 20px;
+  font-family: Mulish, Arial, sans-serif;
+}
+
+.button {
+  padding: 0px 20px;
+  background-color: #007BFF; /* Replace with your PrimaryIntusBlue color */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #3190f5; /* Darken color on hover */
+}
+
+.App {
+  text-align: center;
+}
