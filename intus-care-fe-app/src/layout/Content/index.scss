@@ -1,5 +1,7 @@
+@use 'sass:math';
 @import './../../base.scss';
 
 .ic-content {
     background-color: palette-color(offWhite, grayscale);
+    height: calc(100vh - 82px);
 }
