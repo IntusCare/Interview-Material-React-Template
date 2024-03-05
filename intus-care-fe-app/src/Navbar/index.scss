@@ -1,0 +1,7 @@
+@import './../base.scss';
+
+$shadow-color: palette-color(black50, grayscale);
+
+.intus-navbar {
+    box-shadow: 0px 0.4px 0.8rem 0.08rem #{$shadow-color};
+}
