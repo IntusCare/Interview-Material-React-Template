@@ -1,0 +1,39 @@
+@function color($color,$tone){
+
+    @warn map-get($palettes,$color);
+
+    @if map-has-key($palettes,$color){
+        $color: map-get($palettes,$color);
+
+            @if map-has-key($color,$tone){
+                $tone: map-get($color,$tone);
+                @return $tone;
+            }
+
+            @warn "unknown tone `#{$tone}` in color";
+            @return null;        
+    }
+
+    @warn "unknown color `#{$color}` in palette";
+    @return null;
+   
+}
+
+$font-family: Mulish, Arial, sans-serif;
+
+$palette: (
+    grayscale: (
+        white: #FFFFFF,
+        offWhite: #E5E5E5,
+        inputBack: #F1F2F3,
+        labels: #97999B,
+        body: #626275,
+        black: rgb(0, 0, 0),
+        black50: rgba(0, 0, 0, 0.5)
+    ),
+    primary: (
+        intusBlue: rgb(77, 126, 248),
+        intusBlue50:rgb(77, 126, 248, 0.5),
+        intusNavy: #062D8F
+    )
+);
