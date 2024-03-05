@@ -1,12 +1,32 @@
 import { Button, Card } from "react-bootstrap";
 import "./index.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function ParticipantsList() {
   const [filterAscending, setFilterAscending] = useState(false);
   function setAscending(val: boolean) {
     setFilterAscending(val);
   }
+
+  const [participants, setParticipants] = useState([]);
+  const makeApiCall = async () => {
+    try {
+      const call = fetch("http://localhost:8000/participants", {
+        method: "GET",
+        mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setParticipants(data);
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  useEffect(() => {
+    makeApiCall();
+  }, []);
 
   return (
     <>
