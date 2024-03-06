@@ -4,7 +4,7 @@ import "./index.scss";
 function IntusCareNavbar() {
   return (
     <>
-      <Navbar bg="light" data-bs-theme="light" className="intus-navbar">
+      <Navbar className="intus-navbar">
         <Container className="ms-2">
           <Navbar.Brand href="#home">
             <img

@@ -1,34 +1,43 @@
-@import "~bootstrap/scss/bootstrap";
 @import "base";
+@import "~bootstrap/scss/bootstrap";
 
 h2 {
   font-weight: bold;
-  font-size: 28;
+  font-size: 28px;
   font-family: $font-family;
 }
 
 h3 {
   font-weight: bold;
-  font-size: 20;
+  font-size: 20px;
   font-family: $font-family;
 }
 
 body {
   font-weight: normal;
-  font-size: 20;
+  font-size: 20px;
   font-family: $font-family;
 }
 
-.ic-card {
-  box-shadow: 0px 0.4px 0.4rem 0.06rem pallete-color(black50, grayscale);
-  border: none;
+.icCard {
+  box-shadow: 0px 0.4px 0.4rem 0.06rem $grayscale-black50;
+  border: 2px solid transparent;
   border-radius: 10px;
-
-  &:hover {
-    box-shadow: 0px 0.4px 0.4rem 0.06rem pallete-color(black50, grayscale);
-    border: 2px solid pallete-color(intusBlue50, primary);
-  }
-
+  
   padding: 20px;
   margin:20px;
+}
+
+.icCard.icCardHoverable {
+  &:hover {
+    border: 2px solid $primary-intusBlue50;
+  }
+}
+
+.txt-primary-intusNavy {
+  color: $primary-intusNavy;
+}
+
+.txt-grayscale-body {
+  color: $grayscale-body;
 }
