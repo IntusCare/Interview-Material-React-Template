@@ -21,6 +21,19 @@ function ParticipantsList() {
   const [filterAscending, setFilterAscending] = useState(false);
   function setAscending(val: boolean) {
     setFilterAscending(val);
+    if (val) {
+      setParticipants(
+        participants.sort((p1, p2) => {
+          return p1.diagnoses.length - p2.diagnoses.length;
+        })
+      );
+    } else {
+      setParticipants(
+        participants.sort((p1, p2) => {
+          return p2.diagnoses.length - p1.diagnoses.length;
+        })
+      );
+    }
   }
 
   const [participants, setParticipants] = useState([] as IParticipant[]);
@@ -95,7 +108,9 @@ function ParticipantsList() {
                     <div className="col-8">
                       {p.firstName} {p.lastName}
                     </div>
-                    <div className="col-4">{p.diagnoses.length}</div>
+                    <div className="col-4 txt-primary-intusNavy">
+                      {p.diagnoses.length}
+                    </div>
                   </div>
                 </Card>
               </li>
