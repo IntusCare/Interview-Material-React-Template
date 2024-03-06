@@ -1,13 +1,14 @@
 import { Button, Card } from "react-bootstrap";
 import "./index.scss";
 import { useState, useEffect } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
-interface IDiagnosis {
+export interface IDiagnosis {
   icdCode: string;
   timestamp: string;
 }
 
-interface IParticipant {
+export interface IParticipant {
   firstName: string;
   lastName: string;
   dateOfBirth: string;
@@ -63,9 +64,7 @@ function ParticipantsList() {
   const [participants, setParticipants] = useState([] as IParticipant[]);
 
   function setParticipantsData(data: IParticipant[]) {
-    console.log(data);
     setParticipants(data);
-    console.log("data set");
   }
 
   const makeApiCall = async () => {
@@ -85,6 +84,11 @@ function ParticipantsList() {
   useEffect(() => {
     makeApiCall();
   }, []);
+
+  const navigate = useNavigate();
+  const handleParticipantClick = (participantIndex: number) => {
+    navigate(`/Participants/${participantIndex}`);
+  };
 
   return (
     <>
@@ -154,7 +158,11 @@ function ParticipantsList() {
           <hr className="mt-1" />
           <ul className="list-group">
             {participants.map((p, index) => (
-              <li key={index} className="list-group-item border-0">
+              <li
+                key={index}
+                className="list-group-item border-0"
+                onClick={() => handleParticipantClick(index)}
+              >
                 <Card className="icCard icCardHoverable mx-0 my-0">
                   <div className="row">
                     <div className="col-8">
