@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {
   setParticipants,
   setParticipantsWithId,
+  fetchParticipants,
 } from "../../reducers/participantsReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { ParticipantsState } from "../../store";
@@ -20,20 +21,7 @@ function ParticipantsList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchParticipants = async () => {
-      try {
-        const response = await fetch("http://localhost:8000/participants", {
-          method: "GET",
-          mode: "cors",
-        });
-        const data = await response.json();
-        dispatch(setParticipants(data));
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
-
-    if (participantsWithId.length === 0) fetchParticipants();
+    if (participantsWithId.length === 0) fetchParticipants(dispatch);
   }, [dispatch]);
 
   function filterAscendingByDiagnosesCountHandler(val: boolean) {

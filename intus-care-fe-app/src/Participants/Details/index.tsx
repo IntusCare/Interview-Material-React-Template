@@ -4,14 +4,30 @@ import { useState, useEffect } from "react";
 
 import "./index.scss";
 import { FaChevronLeft } from "react-icons/fa";
-import { IParticipant, IDiagnosis } from "../../reducers/participantsReducer";
+import {
+  IParticipant,
+  IDiagnosis,
+  setParticipants,
+  fetchParticipants,
+} from "../../reducers/participantsReducer";
 import { IDiagnosisDetails } from "../../reducers/diagnosesReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { ParticipantsState } from "../../store";
 
 function ParticipantDetails() {
   const { participantId } = useParams();
   const participantIdParam: string = participantId!;
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const participantWithId = useSelector((state: ParticipantsState) =>
+    state.participantsReducer.participantsWithId.find(
+      (p) => p.id === participantId
+    )
+  );
+
+  const [participantName, setParticipantName] = useState("");
   const [diagnosesDetails, setDiagnosesCodes] = useState(
     [] as IDiagnosisDetails[]
   );
@@ -29,58 +45,25 @@ function ParticipantDetails() {
     setDiagnosesCodes(displayData);
   }
 
-  const nthElement = (participants: IParticipant[], i = 0) => {
-    return participants[i];
-  };
-
-  const api_getParticipant = async () => {
-    try {
-      fetch("http://localhost:8000/participants", {
-        method: "GET",
-        mode: "cors",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          const participantData = nthElement(
-            data,
-            parseInt(participantIdParam)
-          );
-          const icdCodes = participantData.diagnoses.map(
-            (d: IDiagnosis) => d.icdCode
-          );
-          setDiagnosesCodesData(icdCodes);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
   useEffect(() => {
-    api_getParticipant();
-  }, []);
+    if (participantWithId === undefined) fetchParticipants(dispatch);
+  }, [dispatch]);
 
-  const api_getDiagnosisCodeName = async (searchTerms: string) => {
-    try {
-      const url = new URL(
-        "https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search"
+  useEffect(() => {
+    if (participantWithId !== undefined) {
+      setParticipantName(
+        participantWithId.participant.firstName +
+          " " +
+          participantWithId.participant.lastName
       );
-      url.searchParams.append("maxList", "10");
-      url.searchParams.append("sf", "code");
-      url.searchParams.append("df", "code,name");
-      url.searchParams.append("terms", searchTerms);
 
-      fetch(url, {
-        method: "GET",
-        // mode: "cors",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          return data;
-        });
-    } catch (e) {
-      console.log(e);
+      const icdCodes = participantWithId.participant.diagnoses.map(
+        (d: IDiagnosis) => d.icdCode
+      );
+
+      setDiagnosesCodesData(icdCodes);
     }
-  };
+  }, [participantWithId]);
 
   return (
     <>
@@ -97,7 +80,7 @@ function ParticipantDetails() {
         </div>
         <div className="col-8">
           <Card className="icCard">
-            <h2 className="txt-grayscale-body">Participant Name</h2>
+            <h2 className="txt-grayscale-body">{participantName}</h2>
             <hr className="mt-0" />
             <div>
               <div className="txt-grayscale-labels mb-2">

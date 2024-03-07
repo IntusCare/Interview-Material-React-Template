@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { Dispatch, UnknownAction, createSlice } from "@reduxjs/toolkit";
 
 export interface IDiagnosis {
   icdCode: string;
@@ -48,3 +48,16 @@ const participantsSlice = createSlice({
 export const { setParticipants, setParticipantsWithId } =
   participantsSlice.actions;
 export default participantsSlice.reducer;
+
+export const fetchParticipants = async (dispatch: Dispatch<UnknownAction>) => {
+  try {
+    const response = await fetch("http://localhost:8000/participants", {
+      method: "GET",
+      mode: "cors",
+    });
+    const data = await response.json();
+    dispatch(setParticipants(data));
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+};
