@@ -1,32 +1,42 @@
 import { Button, Card } from "react-bootstrap";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { IParticipant, IDiagnosis } from "../List";
+import { IDiagnosis, IParticipant } from "../List";
 import "./index.scss";
+import { FaChevronLeft } from "react-icons/fa";
+
+interface IDiagnosisDetails {
+  icdCode: string;
+  name: string | null;
+}
 
 function ParticipantDetails() {
   const { participantId } = useParams();
   const participantIdParam: string = participantId!;
   const navigate = useNavigate();
 
-  const handleBackClick = () => {
-    navigate(`/Participants`);
-  };
+  const [diagnosesDetails, setDiagnosesCodes] = useState(
+    [] as IDiagnosisDetails[]
+  );
 
-  const [participant, setParticipant] = useState<IParticipant | null>(null);
-  function setParticipantData(data: IParticipant | null) {
-    console.log("participant data: ", data);
-    if (data != null) setParticipant(data);
+  function setDiagnosesCodesData(codes: string[]) {
+    const displayData = codes.map((code) => {
+      const diagnosticDetails: IDiagnosisDetails = {
+        icdCode: code,
+        name: "Loading...",
+      };
+
+      return diagnosticDetails;
+    });
+
+    setDiagnosesCodes(displayData);
   }
 
   const nthElement = (participants: IParticipant[], i = 0) => {
-    console.log("nth Element finder: ", participants);
-    console.log("i: ", i);
-    if (i > participants.length - 1) return null;
     return participants[i];
   };
 
-  const makeApiCall = async () => {
+  const api_getParticipant = async () => {
     try {
       fetch("http://localhost:8000/participants", {
         method: "GET",
@@ -34,29 +44,58 @@ function ParticipantDetails() {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("API data: ", data);
-          console.log("API participantId: ", participantId);
           const participantData = nthElement(
             data,
             parseInt(participantIdParam)
           );
-          console.log("participant data: ", participantData);
-          setParticipantData(participantData);
+          const icdCodes = participantData.diagnoses.map(
+            (d: IDiagnosis) => d.icdCode
+          );
+          setDiagnosesCodesData(icdCodes);
         });
     } catch (e) {
       console.log(e);
     }
   };
   useEffect(() => {
-    makeApiCall();
+    api_getParticipant();
   }, []);
+
+  const api_getDiagnosisCodeName = async (searchTerms: string) => {
+    try {
+      const url = new URL(
+        "https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search"
+      );
+      url.searchParams.append("maxList", "10");
+      url.searchParams.append("sf", "code");
+      url.searchParams.append("df", "code,name");
+      url.searchParams.append("terms", searchTerms);
+
+      fetch(url, {
+        method: "GET",
+        // mode: "cors",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          return data;
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <>
-      <div className="row">
+      <div className="row pt-3">
         <div className="col-2">
-          <Button className="btn-back mt-3 ms-3" onClick={handleBackClick}>
-            Back
+          <Button
+            className="btn-back mt-3 ms-4"
+            onClick={() => navigate(`/Participants`)}
+          >
+            <div className="d-flex justify-content-center align-items-center px-2">
+              <FaChevronLeft className="me-2" /> Back
+            </div>
           </Button>
         </div>
         <div className="col-8">
@@ -65,15 +104,17 @@ function ParticipantDetails() {
             <hr className="mt-0" />
             <div>
               <div className="txt-grayscale-labels mb-2">
-                ICD Codes ({participant?.diagnoses.length})
+                ICD Codes ({diagnosesDetails.length})
               </div>
               <div>
                 <ul className="list-group ic-icd-code-ul">
-                  {participant?.diagnoses.map((d) => (
+                  {diagnosesDetails.map((codeDetails) => (
                     <li className="list-group-item ic-icd-code-li d-inline-flex">
-                      <div className="txt-grayscale-black">{d.icdCode}</div>
+                      <div className="txt-grayscale-black">
+                        {codeDetails.name}
+                      </div>
                       <div className="txt-grayscale-body ms-auto">
-                        {d.icdCode}
+                        {codeDetails.icdCode}
                       </div>
                     </li>
                   ))}
