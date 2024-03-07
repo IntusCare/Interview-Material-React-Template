@@ -10,9 +10,13 @@ import {
   setParticipants,
   fetchParticipants,
 } from "../../reducers/participantsReducer";
-import { IDiagnosisDetails } from "../../reducers/diagnosesReducer";
+import {
+  IDiagnosisDetails,
+  fetchDiagnosisCodeName,
+} from "../../reducers/diagnosesReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { ParticipantsState } from "../../store";
+import { Dispatch, UnknownAction } from "redux";
 
 function ParticipantDetails() {
   const { participantId } = useParams();
@@ -26,23 +30,18 @@ function ParticipantDetails() {
       (p) => p.id === participantId
     )
   );
-
-  const [participantName, setParticipantName] = useState("");
-  const [diagnosesDetails, setDiagnosesCodes] = useState(
-    [] as IDiagnosisDetails[]
+  const { diagnosisDetails } = useSelector(
+    (state: ParticipantsState) => state.diagnosesReducer
   );
 
+  const [participantName, setParticipantName] = useState("");
+  const [diagnosesCodes, setDiagnosesCodes] = useState([] as string[]);
+
   function setDiagnosesCodesData(codes: string[]) {
-    const displayData = codes.map((code) => {
-      const diagnosticDetails: IDiagnosisDetails = {
-        icdCode: code,
-        name: "Loading...",
-      };
-
-      return diagnosticDetails;
+    codes.forEach((code) => {
+      fetchDiagnosisCodeName(dispatch, code);
     });
-
-    setDiagnosesCodes(displayData);
+    setDiagnosesCodes(codes);
   }
 
   useEffect(() => {
@@ -84,18 +83,19 @@ function ParticipantDetails() {
             <hr className="mt-0" />
             <div>
               <div className="txt-grayscale-labels mb-2">
-                ICD Codes ({diagnosesDetails.length})
+                ICD Codes ({diagnosesCodes.length})
               </div>
               <div>
                 <ul className="list-group ic-icd-code-ul">
-                  {diagnosesDetails.map((codeDetails) => (
-                    <li className="list-group-item ic-icd-code-li d-inline-flex">
+                  {diagnosesCodes.map((code, index) => (
+                    <li
+                      key={index}
+                      className="list-group-item ic-icd-code-li d-inline-flex"
+                    >
                       <div className="txt-grayscale-black">
-                        {codeDetails.name}
+                        {diagnosisDetails[code]}
                       </div>
-                      <div className="txt-grayscale-body ms-auto">
-                        {codeDetails.icdCode}
-                      </div>
+                      <div className="txt-grayscale-body ms-auto">{code}</div>
                     </li>
                   ))}
                 </ul>

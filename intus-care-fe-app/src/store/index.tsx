@@ -11,7 +11,7 @@ export interface ParticipantsState {
     participantsWithId: IParticipantWithId[];
   };
   diagnosesReducer: {
-    diagnosisDetails: IDiagnosisDetails[];
+    diagnosisDetails: { [code: string]: string };
   };
 }
 const store = configureStore({
