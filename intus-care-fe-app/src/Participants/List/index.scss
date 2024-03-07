@@ -1,0 +1,14 @@
+@import './../../base';
+
+.btn-filter {
+    display: contents;
+}
+
+.img-rotate-180 {
+    transform: rotate(180deg);
+}
+
+.participants-card {
+    height: calc(100vh - 200px);
+    overflow-y: scroll;
+}

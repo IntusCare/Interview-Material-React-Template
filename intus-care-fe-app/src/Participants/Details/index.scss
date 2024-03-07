@@ -1,0 +1,12 @@
+@import './../../base';
+
+.ic-icd-code-ul {
+    border-radius: 0;
+}
+
+.ic-icd-code-li {
+  background-color: $grayscale-inputBack;
+  border-radius: 0;
+  border: 0;
+  margin-bottom: 14px;
+}

@@ -1,0 +1,7 @@
+@use 'sass:math';
+@import './../../base';
+
+.ic-content {
+    background-color: $grayscale-offWhite;
+    height: calc(100vh - 82px);
+}

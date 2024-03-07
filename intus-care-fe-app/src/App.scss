@@ -1,0 +1,55 @@
+@import "base";
+@import "~bootstrap/scss/bootstrap";
+
+h2 {
+  font-weight: bold;
+  font-size: 28px;
+  font-family: $font-family;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 20px;
+  font-family: $font-family;
+}
+
+body {
+  font-weight: normal;
+  font-size: 20px;
+  font-family: $font-family;
+}
+
+.icCard {
+  box-shadow: 0px 0.4px 0.4rem 0.06rem $grayscale-black50;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  
+  padding: 20px;
+  margin:20px;
+}
+
+.icCard.icCardHoverable {
+  &:hover {
+    border: 2px solid $primary-intusBlue50;
+  }
+}
+
+.txt-primary-intusNavy {
+  color: $primary-intusNavy;
+}
+
+.txt-grayscale-body {
+  color: $grayscale-body;
+}
+
+.txt-grayscale-labels {
+  color: $grayscale-labels;
+}
+
+.txt-grayscale-black {
+  color: $grayscale-black;
+}
+
+.btn-back {
+  background-color: $primary-intusBlue;
+}
