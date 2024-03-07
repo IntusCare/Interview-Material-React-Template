@@ -1,92 +1,106 @@
 import { Button, Card } from "react-bootstrap";
 import "./index.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
-
-export interface IDiagnosis {
-  icdCode: string;
-  timestamp: string;
-}
-
-export interface IParticipant {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  gender: string;
-  phoneNumber: number;
-  patientNotes: string;
-  diagnoses: IDiagnosis[];
-}
+import { useNavigate } from "react-router-dom";
+import {
+  setParticipants,
+  setParticipantsWithId,
+} from "../../reducers/participantsReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { ParticipantsState } from "../../store";
 
 function ParticipantsList() {
   const [filterAscendingByDiagnosesCount, setFilterAscendingByDiagnosesCount] =
     useState(false);
   const [filterAscendingByName, setFilterAscendingByName] = useState(false);
-
-  function setAscendingByDiagnosesCount(val: boolean) {
-    setFilterAscendingByDiagnosesCount(val);
-    if (val) {
-      setParticipants(
-        participants.sort((p1, p2) => {
-          return p1.diagnoses.length - p2.diagnoses.length;
-        })
-      );
-    } else {
-      setParticipants(
-        participants.sort((p1, p2) => {
-          return p2.diagnoses.length - p1.diagnoses.length;
-        })
-      );
-    }
-  }
-
-  function setAscendingByName(val: boolean) {
-    setFilterAscendingByName(val);
-    if (val) {
-      setParticipants(
-        participants.sort(
-          (p1, p2) =>
-            p1.firstName.localeCompare(p2.firstName) * 10 +
-            p1.lastName.localeCompare(p2.lastName)
-        )
-      );
-    } else {
-      setParticipants(
-        participants.sort(
-          (p1, p2) =>
-            p2.firstName.localeCompare(p1.firstName) * 10 +
-            p2.lastName.localeCompare(p1.lastName)
-        )
-      );
-    }
-  }
-
-  const [participants, setParticipants] = useState([] as IParticipant[]);
-
-  function setParticipantsData(data: IParticipant[]) {
-    setParticipants(data);
-  }
-
-  const makeApiCall = async () => {
-    try {
-      fetch("http://localhost:8000/participants", {
-        method: "GET",
-        mode: "cors",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setParticipantsData(data);
-        });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  useEffect(() => {
-    makeApiCall();
-  }, []);
-
+  const { participantsWithId } = useSelector(
+    (state: ParticipantsState) => state.participantsReducer
+  );
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleParticipantClick = (participantIndex: number) => {
+
+  useEffect(() => {
+    const fetchParticipants = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/participants", {
+          method: "GET",
+          mode: "cors",
+        });
+        const data = await response.json();
+        dispatch(setParticipants(data));
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    if (participantsWithId.length === 0) fetchParticipants();
+  }, [dispatch]);
+
+  function filterAscendingByDiagnosesCountHandler(val: boolean) {
+    setFilterAscendingByDiagnosesCount(val);
+    if (participantsWithId.length > 0) {
+      const arrayForSort = [...participantsWithId];
+      if (val) {
+        dispatch(
+          setParticipantsWithId(
+            arrayForSort.sort((p1, p2) => {
+              return (
+                p1.participant.diagnoses.length -
+                p2.participant.diagnoses.length
+              );
+            })
+          )
+        );
+      } else {
+        dispatch(
+          setParticipantsWithId(
+            arrayForSort.sort((p1, p2) => {
+              return (
+                p2.participant.diagnoses.length -
+                p1.participant.diagnoses.length
+              );
+            })
+          )
+        );
+      }
+    }
+  }
+
+  function filterAscendingByNameHandler(val: boolean) {
+    setFilterAscendingByName(val);
+    if (participantsWithId.length > 0) {
+      const arrayForSort = [...participantsWithId];
+      if (val) {
+        dispatch(
+          setParticipantsWithId(
+            arrayForSort.sort(
+              (p1, p2) =>
+                p1.participant.firstName.localeCompare(
+                  p2.participant.firstName
+                ) *
+                  10 +
+                p1.participant.lastName.localeCompare(p2.participant.lastName)
+            )
+          )
+        );
+      } else {
+        dispatch(
+          setParticipantsWithId(
+            arrayForSort.sort(
+              (p1, p2) =>
+                p2.participant.firstName.localeCompare(
+                  p1.participant.firstName
+                ) *
+                  10 +
+                p2.participant.lastName.localeCompare(p1.participant.lastName)
+            )
+          )
+        );
+      }
+    }
+  }
+
+  const handleParticipantClick = (participantIndex: string) => {
     navigate(`/Participants/${participantIndex}`);
   };
 
@@ -102,7 +116,7 @@ function ParticipantsList() {
                 {filterAscendingByName && (
                   <Button
                     className="btn-filter"
-                    onClick={() => setAscendingByName(false)}
+                    onClick={() => filterAscendingByNameHandler(false)}
                   >
                     <img
                       alt=""
@@ -114,7 +128,7 @@ function ParticipantsList() {
                 {!filterAscendingByName && (
                   <Button
                     className="btn-filter"
-                    onClick={() => setAscendingByName(true)}
+                    onClick={() => filterAscendingByNameHandler(true)}
                   >
                     <img
                       alt=""
@@ -131,7 +145,9 @@ function ParticipantsList() {
                 {filterAscendingByDiagnosesCount && (
                   <Button
                     className="btn-filter"
-                    onClick={() => setAscendingByDiagnosesCount(false)}
+                    onClick={() =>
+                      filterAscendingByDiagnosesCountHandler(false)
+                    }
                   >
                     <img
                       alt=""
@@ -143,7 +159,7 @@ function ParticipantsList() {
                 {!filterAscendingByDiagnosesCount && (
                   <Button
                     className="btn-filter"
-                    onClick={() => setAscendingByDiagnosesCount(true)}
+                    onClick={() => filterAscendingByDiagnosesCountHandler(true)}
                   >
                     <img
                       alt=""
@@ -157,24 +173,25 @@ function ParticipantsList() {
           </div>
           <hr className="mt-1" />
           <ul className="list-group">
-            {participants.map((p, index) => (
-              <li
-                key={index}
-                className="list-group-item border-0"
-                onClick={() => handleParticipantClick(index)}
-              >
-                <Card className="icCard icCardHoverable mx-0 my-0">
-                  <div className="row">
-                    <div className="col-8">
-                      {p.firstName} {p.lastName}
+            {participantsWithId.length > 0 &&
+              participantsWithId?.map((p, index) => (
+                <li
+                  key={p.id}
+                  className="list-group-item border-0"
+                  onClick={() => handleParticipantClick(p.id)}
+                >
+                  <Card className="icCard icCardHoverable mx-0 my-0">
+                    <div className="row">
+                      <div className="col-8">
+                        {p.participant.firstName} {p.participant.lastName}
+                      </div>
+                      <div className="col-4 txt-primary-intusNavy">
+                        {p.participant.diagnoses.length}
+                      </div>
                     </div>
-                    <div className="col-4 txt-primary-intusNavy">
-                      {p.diagnoses.length}
-                    </div>
-                  </div>
-                </Card>
-              </li>
-            ))}
+                  </Card>
+                </li>
+              ))}
           </ul>
         </Card>
       </div>

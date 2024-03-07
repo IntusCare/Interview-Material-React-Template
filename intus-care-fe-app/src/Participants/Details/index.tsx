@@ -1,14 +1,11 @@
 import { Button, Card } from "react-bootstrap";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { IDiagnosis, IParticipant } from "../List";
+
 import "./index.scss";
 import { FaChevronLeft } from "react-icons/fa";
-
-interface IDiagnosisDetails {
-  icdCode: string;
-  name: string | null;
-}
+import { IParticipant, IDiagnosis } from "../../reducers/participantsReducer";
+import { IDiagnosisDetails } from "../../reducers/diagnosesReducer";
 
 function ParticipantDetails() {
   const { participantId } = useParams();
