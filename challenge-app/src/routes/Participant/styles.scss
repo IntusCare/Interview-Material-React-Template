@@ -1,0 +1,37 @@
+@import '../global_styles.scss';
+
+
+.participant-focus-card {
+    width: 50%;
+    margin: auto;
+    height: 70vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    .participant-name-heading {
+        border-bottom: 1px solid $Labels;
+        color: $Body;
+    }
+
+    .diagnosis-entry {
+        background: $InputBack;
+
+        .description {
+            color: $Black;
+        }
+
+        .code {
+            color: $Body
+        }
+    }
+}
+
+.back-button {
+    background: $IntusBlue !important;
+    border: none;
+
+    h3 {
+        margin: 0;
+    }
+}
