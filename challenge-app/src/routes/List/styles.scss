@@ -1,0 +1,29 @@
+@import '../global_styles.scss';
+
+.list-heading {
+    color: $IntusNavy;
+}
+
+
+.participants-list-card {
+    width: 75%;
+    margin: auto;
+    height: 70vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+    .list-header {
+        border-bottom: 1px solid $Labels;
+    }
+
+    p {
+        text-decoration: none !important;
+        outline: none !important;
+        border: none !important;
+    }
+    .sort-button {
+        cursor: pointer;
+        margin-left: 0.4em;
+    }
+}

@@ -6,4 +6,5 @@ export type participant = {
     phoneNumber: number
     patientNotes: string
     diagnoses: string[]
+    id: number
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import {
@@ -9,9 +8,9 @@ import {
     Route,
     Link,
 } from "react-router-dom";
-import List from './routes/List';
-import Participant from './routes/Participant';
-import Root from './routes/Root';
+import List from './routes/List/List';
+import Participant from './routes/Participant/Participant';
+import Root from './routes/Root/Root';
 
 const PARTICIPANTS_ENDPOINT = "http://localhost:5000/participants"
 const ICD_ENDPOINT = (code: string) => `https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code,name&terms=${code}`
@@ -38,7 +37,7 @@ const router = createBrowserRouter([
                     const participants = await res.json()
                     const participantId = parseInt(params.participantId as string)
                     
-                    const codes = participants[participantId].diagnoses
+                    const { diagnoses: codes, firstName, lastName } = participants[participantId]
 
                     const diagnoses = []
                     for(const { icdCode } of codes){
@@ -47,7 +46,7 @@ const router = createBrowserRouter([
                         diagnoses.push({ code: icdCode, description })
                     }
 
-                    return { diagnoses }
+                    return { diagnoses, firstName, lastName }
                 },
             },
         ]
