@@ -12,6 +12,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html"); // Sending the HTML file
 });
 // Define endpoint for fetching participant diagnoses
+// flex box
 app.get("/diagnoses", (req, res) => {
   const firstName = req.query.firstName;
   const lastName = req.query.lastName;
