@@ -5,6 +5,8 @@ export const useParticipants = () => useContext(ParticipantsContext);
 
 export const ParticipantsProvider = ({ children }) => {
   const [participants, setParticipants] = useState([]);
+  const [diagnosisCache, setDiagnosisCache] = useState({});
+
   console.log("FROM CONTEXT");
 
   useEffect(() => {
@@ -17,7 +19,14 @@ export const ParticipantsProvider = ({ children }) => {
   console.log("FROM CONTEXT");
   console.log(participants);
   return (
-    <ParticipantsContext.Provider value={{ participants, setParticipants }}>
+    <ParticipantsContext.Provider
+      value={{
+        participants,
+        setParticipants,
+        diagnosisCache,
+        setDiagnosisCache,
+      }}
+    >
       {children}
     </ParticipantsContext.Provider>
   );

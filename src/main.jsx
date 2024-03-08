@@ -12,3 +12,5 @@ root.render(
     </ParticipantsProvider>
   </React.StrictMode>
 );
+
+/*https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code&terms=B19.2 */
