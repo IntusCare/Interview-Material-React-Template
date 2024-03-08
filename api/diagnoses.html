@@ -1,0 +1,91 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      background-color: #cccccc; /* Set the background color of the entire page */
+    }
+  </style>
+  <title>Diagnoses</title>
+  <style>
+    .participant-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center items horizontally */
+      background-color: #cccccc;
+    }
+    .participant-box {
+      width: 1000px; /* Adjust width as needed */
+      height: 50px; /* Adjust height as needed */
+      border: 5px solid blue;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f0f0f0;
+    }
+    /* Style for search bar */
+    .search-container {
+      margin-bottom: 20px;
+    }
+    .search-input {
+      padding: 8px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .diagnoses-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center items horizontally */
+      background-color: #cccccc;
+    }
+    .diagnoses-box {
+      width: 1000px; /* Adjust width as needed */
+      height: 50px; /* Adjust height as needed */
+      border: 5px solid blue;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<div class="participant-container" id="participant-container"></div>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const firstName = urlParams.get("firstName");
+  const lastName = urlParams.get("lastName");
+  // Handle redirection to diagnoses page
+  if (firstName && lastName) {
+    // Fetch participant diagnoses based on first name and last name
+    console.log(firstName);
+    fetch("/participants")
+      .then((response) => response.json())
+      .then((participants) => {
+        const diagnosesContainer = document.getElementById(
+          "participant-container"
+        );
+        // Clear any previous content
+        // diagnosesContainer.innerHTML = "";
+
+        // Populate diagnoses data
+        participants.forEach((participant) => {
+          if (
+            participant.firstName === firstName &&
+            participant.lastName === lastName
+          ) {
+            console.log(participant.diagnoses);
+            participant.diagnoses.forEach((diagnosis) => {
+              const diagnosisElement = document.createElement("div");
+              diagnosisElement.classList.add("diagnoses-box");
+              diagnosisElement.textContent = `ICD Code: ${diagnosis.icdCode}`;
+              diagnosesContainer.appendChild(diagnosisElement);
+            });
+          }
+        });
+      })
+      .catch((error) => console.error("Error fetching diagnoses:", error));
+  } else {
+    console.error("First name and/or last name not provided.");
+  }
+</script>

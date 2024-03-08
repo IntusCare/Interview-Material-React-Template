@@ -11,6 +11,23 @@ app.get("/participants", (_, res) => {
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html"); // Sending the HTML file
 });
+// Define endpoint for fetching participant diagnoses
+app.get("/diagnoses", (req, res) => {
+  const firstName = req.query.firstName;
+  const lastName = req.query.lastName;
+
+  // Filter participants to find the one with matching first name and last name
+  const participant = participants.find(
+    (p) => p.firstName === firstName && p.lastName === lastName
+  );
+
+  // If participant is found, render the diagnoses page with the participant's diagnoses
+  if (participant) {
+    res.sendFile(__dirname + "/diagnoses.html");
+  } else {
+    res.status(404).send("Participant not found");
+  }
+});
 
 // for (const person of participants) {
 //   const row = app.createElement("tr");
