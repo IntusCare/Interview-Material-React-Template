@@ -128,6 +128,11 @@
       top: 20px; /* Distance from the top of the viewport */
       right: 20px; /* Distance from the right of the viewport */
     }
+    #myButton2 {
+      position: fixed; /* Position the button relative to the viewport */
+      top: 20px; /* Distance from the top of the viewport */
+      right: 500px; /* Distance from the right of the viewport */
+    }
   </style>
 </head>
 <body>
@@ -142,7 +147,9 @@
   </div>
   <div class="participant-container" id="participants-container"></div>
   <button id="myButton">Click me</button>
+  <button id="myButton2">Click me</button>
   <script>
+    var check_clicked = 0;
     // Fetch participants data from the server
     fetch("/participants")
       .then((response) => response.json())
@@ -176,39 +183,92 @@
             }
           });
         };
-        // Function to filter participants based on search input
-        const filter_by_num_diseases = () => {
-          //   const searchInput = document
-          //     .getElementById("searchInput")
-          //     .value.toLowerCase();
-          participantsContainer.innerHTML = ""; // Clear previous content
-          participants.forEach((participant) => {
-            const num_disease = participant.diagnoses.length;
-            if (fullName.toLowerCase().includes(searchInput)) {
-              const participantBox = document.createElement("div");
-              participantBox.classList.add("participant-box");
-              const ICD_num = participant.diagnoses.length;
-              participantBox.textContent = `${fullName} - ${ICD_num}`;
-              // Add click event listener
-              participantBox.addEventListener("click", () => {
-                // Redirect to diagnoses page with participant ID as query parameter
-                const firstName = encodeURIComponent(participant.firstName);
-                const lastName = encodeURIComponent(participant.lastName);
-                // Redirect to diagnoses page with first name and last name as query parameters
-                window.location.href = `diagnoses?firstName=${firstName}&lastName=${lastName}`;
-              });
-              participantsContainer.appendChild(participantBox);
-            }
+        const filter_by_name = () => {
+          // Clear previous content
+          participantsContainer.innerHTML = "";
+          const participant_list = participants.slice(); // Copy the participants array
+          // Sort alphabetically by first name
+          participant_list.sort((a, b) => {
+            const nameA = a.firstName.toLowerCase();
+            const nameB = b.firstName.toLowerCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+          });
+
+          participant_list.forEach((person) => {
+            const participantBox = document.createElement("div");
+            participantBox.classList.add("participant-box");
+            const ICD_num = person.diagnoses.length;
+            const fullName = `${person.firstName} ${person.lastName}`; // Get the full name of the participant
+            participantBox.textContent = `${fullName} - ${ICD_num}`;
+            // Add click event listener
+            participantBox.addEventListener("click", () => {
+              // Redirect to diagnoses page with participant ID as query parameter
+              const firstName = encodeURIComponent(person.firstName);
+              const lastName = encodeURIComponent(person.lastName);
+              // Redirect to diagnoses page with first name and last name as query parameters
+              window.location.href = `diagnoses?firstName=${firstName}&lastName=${lastName}`;
+            });
+            participantsContainer.appendChild(participantBox);
           });
         };
+        const filter_by_num_diseases = () => {
+          // Clear previous content
+          participantsContainer.innerHTML = "";
+          const participant_list = participants.slice(); // Copy the participants array
+
+          if (check_clicked % 2 === 0) {
+            participant_list.sort(
+              (a, b) => a.diagnoses.length - b.diagnoses.length
+            ); // Sort by number of diagnoses (ascending)
+          } else {
+            participant_list.sort(
+              (a, b) => b.diagnoses.length - a.diagnoses.length
+            ); // Sort by number of diagnoses (descending)
+          }
+
+          participant_list.forEach((person) => {
+            const participantBox = document.createElement("div");
+            participantBox.classList.add("participant-box");
+            const ICD_num = person.diagnoses.length;
+            const fullName = `${person.firstName} ${person.lastName}`; // Get the full name of the participant
+            participantBox.textContent = `${fullName} - ${ICD_num}`;
+            // Add click event listener
+            participantBox.addEventListener("click", () => {
+              // Redirect to diagnoses page with participant ID as query parameter
+              const firstName = encodeURIComponent(person.firstName);
+              const lastName = encodeURIComponent(person.lastName);
+              // Redirect to diagnoses page with first name and last name as query parameters
+              window.location.href = `diagnoses?firstName=${firstName}&lastName=${lastName}`;
+            });
+            participantsContainer.appendChild(participantBox);
+          });
+        }; //   });}
+        // };
         // Find the button element
         const button = document.getElementById("myButton");
 
         // Add an event listener to the button
         button.addEventListener("click", () => {
           // This function will be executed when the button is clicked
-          alert("Button clicked!");
-          console.log("gengnrgiagrraighoirio");
+          //   check_clicked = 0;
+          filter_by_num_diseases();
+          //   alert("Button clicked!");
+          //   console.log("gengnrgiagrraighoirio");
+          check_clicked++;
+        });
+        const button2 = document.getElementById("myButton2");
+
+        // Add an event listener to the button
+        button2.addEventListener("click", () => {
+          // This function will be executed when the button is clicked
+          //   check_clicked = 0;
+          filter_by_name();
+          //   filter_by_num_diseases();
+          //   alert("Button clicked!");
+          //   console.log("gengnrgiagrraighoirio");
+          //   check_clicked++;
         });
 
         filterParticipants();
