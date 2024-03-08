@@ -1,14 +1,28 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useParticipants } from "../context/PptContext";
 
 function PptList() {
-  const [participants, setParticipants] = useState([]);
+  //   const { participants, setParticipants } = useParticipants();
 
-  useEffect(() => {
-    fetch("/api/participants") // Using the proxy to redirect to Express backend
-      .then((response) => response.json())
-      .then((data) => setParticipants(data))
-      .catch((error) => console.error("Error fetching data: ", error));
-  }, []); // Empty dependency array means this effect runs once after the initial render
+  //   useEffect(() => {
+  //     fetch("/api/participants")
+  //       .then((response) => response.json())
+  //       .then((data) => setParticipants(data));
+  //   }, [setParticipants]);
+
+  //   const [participants, setParticipants] = useState([]);
+
+  //   useEffect(() => {
+  //     fetch("/api/participants")
+  //       .then((response) => response.json())
+  //       .then((data) => setParticipants(data))
+  //       .catch((error) => console.error("Error fetching data: ", error));
+  //   }, []);
+
+  const { participants } = useParticipants();
+
+  console.log(participants);
 
   return (
     <div>
@@ -16,8 +30,11 @@ function PptList() {
       <ul>
         {participants.map((participant, index) => (
           <li key={index}>
-            {participant.firstName} {participant.lastName} -{" "}
-            {participant.diagnoses.length} codes
+            <Link to={`/participants/${index}`}>
+              {" "}
+              {participant.firstName} {participant.lastName}
+            </Link>
+            - {participant.diagnoses.length} codes
           </li>
         ))}
       </ul>
