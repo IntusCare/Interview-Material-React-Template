@@ -1,6 +1,4 @@
-# Coding Challenge
-
-## Basic Participant List Feature
+## Coding Challenge, Basic Participant List Feature
 
 ##### Ben's Notes
 
