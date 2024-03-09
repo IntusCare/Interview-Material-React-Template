@@ -76,6 +76,7 @@
       </defs>
     </svg>
   </div>
+
   <style>
     .top-textbox {
       display: flex;
@@ -91,7 +92,9 @@
       border-radius: 10px;
     }
   </style>
-  <head>
+</div>  
+<div class="massive-textbox">
+    <h2 id="header">Header Text</h2>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style>
@@ -101,6 +104,16 @@
     </style>
     <title>Diagnoses</title>
     <style>
+        .massive-textbox {
+        width: 100%; /* Adjust the width as needed */
+        max-width: 1200px; /* Maximum width for responsiveness */
+        border-radius: 20px; /* Circular border */
+        border: 2px solid #ccc; /* Border color */
+        padding: 20px; /* Padding inside the textbox */
+        margin: 0 auto; /* Center the textbox horizontally */
+        overflow: auto; /* Enable scrolling if content overflows */
+        background-color: #ffffff;
+      }
       .participant-container {
         display: flex;
         flex-direction: column;
@@ -121,16 +134,7 @@
         border-radius: 10px;
         background-color: #ffffff;
       }
-      /* Style for search bar */
-      .search-container {
-        margin-bottom: 20px;
-      }
-      .search-input {
-        padding: 8px;
-        width: 300px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-      }
+
       .diagnoses-container {
         display: flex;
         flex-direction: column;
@@ -138,13 +142,18 @@
         background-color: #cccccc;
       }
       .diagnoses-box {
+        display: flex; /* Use flexbox */
+        align-items: center; /* Center vertically */
         width: 1000px; /* Adjust width as needed */
         height: 50px; /* Adjust height as needed */
-        border: 5px solid blue;
+        box-shadow: 0px 0.4px 0.4rem 0.06rem rgba(0, 0, 0, 0.3);
+        border: none;
+        border-radius: 10px;
         margin-bottom: 10px;
+        margin-top: 10px;
         padding: 10px;
         border-radius: 10px;
-        background-color: #f0f0f0;
+        background-color: #ffffff;
       }
     </style>
     <meta charset="UTF-8" />
@@ -154,17 +163,19 @@
       /* Style for the button */
       #myButton {
         position: fixed; /* Position the button relative to the viewport */
-        top: 20px; /* Distance from the top of the viewport */
-        right: 20px; /* Distance from the right of the viewport */
+        top: 150px; /* Distance from the top of the viewport */
+        left: 40px; /* Distance from the right of the viewport */
       }
     </style>
   </head>
   <div class="participant-container" id="participant-container"></div>
-  <button id="myButton">Click me</button>
+  <button id="myButton">Back</button>
   <script>
+
     const urlParams = new URLSearchParams(window.location.search);
     const firstName = urlParams.get("firstName");
     const lastName = urlParams.get("lastName");
+    
     // Handle redirection to diagnoses page
     if (firstName && lastName) {
       // Fetch participant diagnoses based on first name and last name
@@ -172,6 +183,7 @@
       fetch("/participants")
         .then((response) => response.json())
         .then((participants) => {
+            
           const diagnosesContainer = document.getElementById(
             "participant-container"
           );
@@ -185,6 +197,9 @@
               participant.lastName === lastName
             ) {
               console.log(participant.diagnoses);
+              const headerElement = document.getElementById("header");
+            const num_dis = 
+            headerElement.textContent = firstName+ " "+ lastName + "ICD codes:" + participant.diagnoses.length.toString();
               participant.diagnoses.forEach((diagnosis) => {
                 const diagnosisElement = document.createElement("div");
                 diagnosisElement.classList.add("diagnoses-box");
@@ -208,7 +223,7 @@
                           "Could not find disease in dataset";
                       }
                       if (data[dat_len - 1].length === 1) {
-                        diagnosisElement.textContent = `Disease: ${
+                        diagnosisElement.textContent = `${
                           data[dat_len - 1][0][1]
                         }`;
                       } else {
@@ -219,7 +234,7 @@
                             const disease = data[dat_len - 1][i][1];
                             diseaseList.push(data[dat_len - 1][i][1]);
                           } else {
-                            diagnosisElement.textContent += `Disease: ${
+                            diagnosisElement.textContent += `${
                               data[dat_len - 1][0][1]
                             }`;
                           }
@@ -236,7 +251,7 @@
                           const diagnosisElement2 =
                             document.createElement("div");
                           diagnosisElement2.classList.add("diagnoses-box");
-                          diagnosisElement.textContent = `Disease: ${diseaseList[j]}\n`;
+                          diagnosisElement.textContent = `${diseaseList[j]}\n`;
                         }
                       }
 
