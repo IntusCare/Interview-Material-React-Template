@@ -109,6 +109,8 @@
     }
     /* Style for search bar */
     .search-container {
+      margin: 0 auto; /* Center the container horizontally */
+      text-align: center; /* Align the text (search input) inside the container */
       margin-bottom: 20px;
     }
     .search-input {
@@ -120,17 +122,23 @@
   </style>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Button Example</title>
+  <title>Buttons</title>
   <style>
     /* Style for the button */
-    #myButton {
+    #myButtonodd {
       position: fixed; /* Position the button relative to the viewport */
       top: 20px; /* Distance from the top of the viewport */
       right: 20px; /* Distance from the right of the viewport */
     }
+    #myButtoneven {
+      position: fixed; /* Position the button relative to the viewport */
+      top: 60px; /* Distance from the top of the viewport */
+      right: 20px; /* Distance from the right of the viewport */
+      transform: rotate(180deg);
+    }
     #myButton2 {
       position: fixed; /* Position the button relative to the viewport */
-      top: 20px; /* Distance from the top of the viewport */
+      top: 100px; /* Distance from the top of the viewport */
       right: 500px; /* Distance from the right of the viewport */
     }
   </style>
@@ -146,8 +154,63 @@
     />
   </div>
   <div class="participant-container" id="participants-container"></div>
-  <button id="myButton">Click me</button>
-  <button id="myButton2">Click me</button>
+  <!-- <style></style> -->
+  <button id="myButtonodd">
+    <svg
+      width="26"
+      height="27"
+      viewBox="0 0 26 27"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="24.5919"
+        y="25.703"
+        width="23.2242"
+        height="24.6769"
+        rx="7"
+        transform="rotate(-180 24.5919 25.703)"
+        stroke="#4D7EF8"
+        stroke-width="2"
+      />
+      <path
+        d="M8.01141 15.8655L13.3339 10.0607L18.6563 15.8655"
+        stroke="#4D7EF8"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+  <button id="myButtoneven">
+    <svg
+      width="26"
+      height="27"
+      viewBox="0 0 26 27"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="24.5919"
+        y="25.703"
+        width="23.2242"
+        height="24.6769"
+        rx="7"
+        transform="rotate(-180 24.5919 25.703)"
+        stroke="#4D7EF8"
+        stroke-width="2"
+      />
+      <path
+        d="M8.01141 15.8655L13.3339 10.0607L18.6563 15.8655"
+        stroke="#4D7EF8"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </button>
+
+  <button id="myButton2">Alphabetical Ordering</button>
   <script>
     var check_clicked = 0;
     // Fetch participants data from the server
@@ -247,16 +310,29 @@
         }; //   });}
         // };
         // Find the button element
-        const button = document.getElementById("myButton");
+        const buttonodd = document.getElementById("myButtonodd");
+        const buttoneven = document.getElementById("myButtoneven");
 
-        // Add an event listener to the button
-        button.addEventListener("click", () => {
+        buttoneven.addEventListener("click", () => {
           // This function will be executed when the button is clicked
           //   check_clicked = 0;
+          check_clicked = 0;
           filter_by_num_diseases();
+          //   toggleButton();
           //   alert("Button clicked!");
           //   console.log("gengnrgiagrraighoirio");
-          check_clicked++;
+          //   check_clicked++;
+        });
+        // Add an event listener to the button
+        buttonodd.addEventListener("click", () => {
+          // This function will be executed when the button is clicked
+          //   check_clicked = 0;
+          check_clicked = 1;
+          filter_by_num_diseases();
+          //   toggleButton();
+          //   alert("Button clicked!");
+          //   console.log("gengnrgiagrraighoirio");
+          //   check_clicked++;
         });
         const button2 = document.getElementById("myButton2");
 
