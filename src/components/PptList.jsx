@@ -54,7 +54,7 @@ function PptList() {
         <div className="participant-header">
           <span>Participant's Name</span>
           <span>
-            # of ICD Codes
+            ICD Codes
             <img
               src={sortIcon()}
               alt="Sort"
