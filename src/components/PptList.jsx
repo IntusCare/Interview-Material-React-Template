@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useParticipants } from "../context/PptContext";
 import "./styles.scss";
-import { useNavigate } from "react-router-dom";
 import filterDownIcon from "../assets/orderFilter_Down.png";
 import filterUpIcon from "../assets/orderFilter_Up.png";
 import filterAlphaIcon from "../assets/orderFilter_Alpha.png";
@@ -49,38 +48,35 @@ function PptList() {
   };
 
   return (
-    <div>
-      <h2>Participants List</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Participant's Name</th>
-            <th>
-              # of ICD Codes
-              <img
-                src={sortIcon()}
-                alt="Sort"
-                onClick={toggleSort}
-                className="sort-icon"
-              />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedParticipants.map((participant, index) => (
-            <tr
-              key={index}
-              className="clickable-row"
-              onClick={() => navigate(`/participants/${index}`)}
-            >
-              <td>
-                {participant.firstName} {participant.lastName}
-              </td>
-              <td>{participant.diagnoses.length}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="ppt-list-container">
+      <h2 className="page-title">Participants</h2>
+      <div className="participants-list">
+        <div className="participant-header">
+          <span>Participant's Name</span>
+          <span>
+            # of ICD Codes
+            <img
+              src={sortIcon()}
+              alt="Sort"
+              onClick={toggleSort}
+              className="sort-icon"
+            />
+          </span>
+        </div>
+        <div className="separator"></div>
+        {sortedParticipants.map((participant, index) => (
+          <div
+            key={index}
+            className="participant-row"
+            onClick={() => navigate(`/participants/${index}`)}
+          >
+            <span className="participant-name">
+              {participant.firstName} {participant.lastName}
+            </span>
+            <span className="icd-codes">{participant.diagnoses.length}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

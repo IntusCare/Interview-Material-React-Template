@@ -116,6 +116,7 @@ h6 {
 .disease-name {
   color: #000000; // Grayscale/Black
   font-size: 20px;
+  text-align: left;
 }
 
 .icd-code {
@@ -134,4 +135,81 @@ h6 {
   padding: 8px 25px 8px 20px;
   font-size: 17px;
   cursor: pointer;
+}
+
+// PptList.jsx
+
+// Main layout and color definitions
+$gray-white: #ffffff;
+$gray-offwhite: #e5e5e5;
+$gray-inputback: #f1f2f3;
+$gray-labels: #97999b;
+$gray-body: #626275;
+$gray-black: #000000;
+$primary-blue: #4d7ef8;
+$primary-navy: #062d8f;
+
+.ppt-list-container {
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.page-title {
+  color: $primary-navy;
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.participants-list {
+  background: $gray-white;
+  box-shadow: 0px 0.4px 0.4rem rgba($gray-black, 0.25);
+  border-radius: 10px;
+  max-height: 70vh;
+  overflow-y: auto;
+  width: 80vw;
+  margin: auto;
+}
+
+@media (max-width: 1100px) {
+  .participant-details-card {
+    width: 80vw;
+  }
+}
+
+.participant-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px 5px 20px;
+  border-bottom: 1px solid $gray-offwhite;
+  color: $gray-labels;
+  font-size: 20px;
+  border-bottom: none;
+}
+
+.participant-row {
+  display: flex;
+  justify-content: space-between;
+  color: $gray-white;
+  font-size: 20px;
+  margin: 15px 40px;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0.4px 0.4rem rgba($gray-black, 0.25);
+
+  &:hover {
+    box-shadow: 0px 0px 0px 2px rgba($primary-blue, 0.5);
+  }
+}
+
+.participant-name {
+  width: 66%;
+  color: $gray-body;
+  text-align: left;
+}
+
+.icd-codes {
+  width: 33%;
+  color: $gray-body;
+  text-align: right;
 }
