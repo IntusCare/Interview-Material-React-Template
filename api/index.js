@@ -1,7 +1,11 @@
 const http = require("http");
 const { app } = require("./app");
+const express = require("express");
 
-const PORT = 5000;
+const expressApp = express();
+expressApp.use(express.static("public"));
+
+const PORT = 5001;
 
 function startServer() {
   const server = http.createServer(app);
