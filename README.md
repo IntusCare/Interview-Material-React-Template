@@ -1,6 +1,7 @@
 ## Coding Challenge, Basic Participant List Feature
 
-##### Ben's Notes
+##### Ben's Notes/Bugs
 
-* the toggle for sorting participants cycles through the following: `default` -> `reverse` -> `alphabetical`
-* didn't get around to saving navigation history, unfortunately :(
+- the toggle for sorting participants cycles through the following: `default` -> `reverse` -> `alphabetical`
+- the absolutely positioned `back` button covers some of the text when the window width is reduced, would be on the to-fix list using relative positioning
+- didn't get around to saving navigation history, unfortunately :(
