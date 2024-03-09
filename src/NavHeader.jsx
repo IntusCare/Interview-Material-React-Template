@@ -1,5 +1,5 @@
 import React from "react";
-import logo_IntusCare from "../public/logo_IntusCare.svg";
+import logo_IntusCare from "/logo_IntusCare.svg";
 import "./index.css";
 
 function NavHeader() {

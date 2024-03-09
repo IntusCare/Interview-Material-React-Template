@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParticipants } from "../context/PptContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./styles.scss";
 
 function PptFocus() {
   const { participants, diagnosisCache, setDiagnosisCache } = useParticipants();
   const { participantId } = useParams();
+  const navigate = useNavigate();
   const index = parseInt(participantId, 10);
   const participant = participants[index];
 
@@ -49,8 +50,15 @@ function PptFocus() {
     }
   }, [participant, diagnosisCache, setDiagnosisCache]);
 
+  const handleBackClick = () => {
+    navigate("/");
+  };
+
   return (
     <div>
+      <button className="back-button" onClick={handleBackClick}>
+        Back
+      </button>{" "}
       <h2>
         {participant?.firstName} {participant?.lastName}
       </h2>
