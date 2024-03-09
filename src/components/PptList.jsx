@@ -66,9 +66,9 @@ function PptList() {
         <div className="separator"></div>
         {sortedParticipants.map((participant, index) => (
           <div
-            key={index}
+            key={participant.id}
             className="participant-row"
-            onClick={() => navigate(`/participants/${index}`)}
+            onClick={() => navigate(`/participants/${participant.id}`)}
           >
             <span className="participant-name">
               {participant.firstName} {participant.lastName}

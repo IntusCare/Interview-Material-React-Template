@@ -6,9 +6,10 @@ import "./styles.scss";
 function PptFocus() {
   const { participants, diagnosisCache, setDiagnosisCache } = useParticipants();
   const { participantId } = useParams();
+  const participant = participants.find(
+    (p) => p.id === parseInt(participantId, 10)
+  );
   const navigate = useNavigate();
-  const index = parseInt(participantId, 10);
-  const participant = participants[index];
 
   const [diagnosesDetails, setDiagnosesDetails] = useState([]);
 
@@ -32,10 +33,10 @@ function PptFocus() {
             }));
             return { ...diagnosis, name };
           } else {
-            console.log(
-              `Data for code ${diagnosis.icdCode} not found or in unexpected format`,
-              data
-            );
+            // console.log(
+            //   `Data for code ${diagnosis.icdCode} not found or in unexpected format`,
+            //   data
+            // );
             return { ...diagnosis, name: "Unknown" };
           }
         }
@@ -51,12 +52,13 @@ function PptFocus() {
   }, [participant, diagnosisCache, setDiagnosisCache]);
 
   const handleBackClick = () => {
+    console.log("handleBackClick pressed");
     navigate("/");
   };
 
   return (
     <div>
-      <button className="back-button" onClick={() => navigate("/")}>
+      <button className="back-button" onClick={handleBackClick}>
         &lt; &nbsp;Back
       </button>
       <div className="ppt-focus-container">

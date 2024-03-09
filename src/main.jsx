@@ -7,11 +7,9 @@ import NavHeader from "./NavHeader.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <ParticipantsProvider>
-      <App />
-    </ParticipantsProvider>
-  </React.StrictMode>
+  <ParticipantsProvider>
+    <App />
+  </ParticipantsProvider>
 );
 
 /*https://clinicaltables.nlm.nih.gov/api/icd10cm/v3/search?sf=code&terms=B19.2 */

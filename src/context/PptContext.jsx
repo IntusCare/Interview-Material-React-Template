@@ -7,17 +7,24 @@ export const ParticipantsProvider = ({ children }) => {
   const [participants, setParticipants] = useState([]);
   const [diagnosisCache, setDiagnosisCache] = useState({});
 
-  console.log("FROM CONTEXT");
+  // console.log("FROM CONTEXT");
 
   useEffect(() => {
     fetch("/api/participants")
       .then((response) => response.json())
-      .then(setParticipants)
+      .then((data) =>
+        setParticipants(
+          data.map((item, index) => ({
+            ...item,
+            id: index,
+          }))
+        )
+      )
       .catch((error) => console.error("Error loading participants:", error));
   }, []);
 
-  console.log("FROM CONTEXT");
-  console.log(participants);
+  // console.log("FROM CONTEXT");
+  // console.log(participants);
   return (
     <ParticipantsContext.Provider
       value={{
