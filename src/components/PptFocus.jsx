@@ -56,29 +56,28 @@ function PptFocus() {
 
   return (
     <div>
-      <button className="back-button" onClick={handleBackClick}>
-        Back
-      </button>{" "}
-      <h2>
-        {participant?.firstName} {participant?.lastName}
-      </h2>
-      <h6>ICD Codes ({diagnosesDetails.length})</h6>
-      <table className="table ppt-focus-table">
-        <thead>
-          <tr>
-            <th>Disease Name</th>
-            <th>ICD Code</th>
-          </tr>
-        </thead>
-        <tbody>
-          {diagnosesDetails.map((diagnosis, index) => (
-            <tr key={index}>
-              <td>{diagnosis.name}</td>
-              <td>{diagnosis.icdCode}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <button className="back-button" onClick={() => navigate("/")}>
+        &lt; &nbsp;Back
+      </button>
+      <div className="ppt-focus-container">
+        <div className="participant-details-card">
+          <h2>
+            {participant?.firstName} {participant?.lastName}
+          </h2>
+          <div className="separator"></div>
+          <div className="subheader">
+            <h6>ICD Codes ({diagnosesDetails.length})</h6>
+          </div>
+          <div className="diagnoses-table">
+            {diagnosesDetails.map((diagnosis, index) => (
+              <div className="diagnosis-entry" key={index}>
+                <span className="disease-name">{diagnosis.name}</span>
+                <span className="icd-code">{diagnosis.icdCode}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
