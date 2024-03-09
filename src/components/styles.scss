@@ -1,3 +1,13 @@
+// Main layout and color definitions
+$gray-white: #ffffff;
+$gray-offwhite: #e5e5e5;
+$gray-inputback: #f1f2f3;
+$gray-labels: #97999b;
+$gray-body: #626275;
+$gray-black: #000000;
+$primary-blue: rgba(#4d7ef8, 0.5);
+$primary-navy: #062d8f;
+
 .table .clickable-row {
   cursor: pointer;
 }
@@ -42,8 +52,8 @@
 }
 
 .back-button {
-  background-color: #4d7ef8; // Primary/IntusBlue from the color palette
-  color: white;
+  background-color: $primary-blue;
+  color: $gray-white;
   border: none;
   border-radius: 5px;
   padding: 10px 15px;
@@ -55,7 +65,7 @@
 }
 
 .participant-details-card {
-  background-color: #ffffff; // Grayscale/White from the color palette
+  background-color: $gray-white;
   border-radius: 10px;
   box-shadow: 0px 0.4px 0.4rem rgba(0, 0, 0, 0.25);
   padding: 20px;
@@ -76,7 +86,7 @@ h6 {
 }
 
 h2 {
-  color: #626275; // Grayscale/Body
+  color: $gray-body;
   font-size: 28px;
   text-align: left;
 }
@@ -87,14 +97,14 @@ h2 {
 }
 
 h6 {
-  color: #97999b; // Grayscale/Labels
+  color: $gray-labels;
   font-size: 20px;
 }
 
 .separator {
   flex-grow: 1;
   height: 2px;
-  background-color: #e5e5e5; // Grayscale/OffWhite
+  background-color: $gray-offwhite;
   margin: 10px 20px 10px 15px;
 }
 
@@ -107,14 +117,14 @@ h6 {
 .diagnosis-entry {
   display: flex;
   justify-content: space-between;
-  background-color: #f1f2f3; // Grayscale/InputBack
+  background-color: $gray-inputback;
   border-radius: 10px;
   margin-top: 10px;
   padding: 10px;
 }
 
-.disease-name {
-  color: #000000; // Grayscale/Black
+.condition-name {
+  color: $gray-black;
   font-size: 20px;
   text-align: left;
 }
@@ -138,16 +148,6 @@ h6 {
 }
 
 // PptList.jsx
-
-// Main layout and color definitions
-$gray-white: #ffffff;
-$gray-offwhite: #e5e5e5;
-$gray-inputback: #f1f2f3;
-$gray-labels: #97999b;
-$gray-body: #626275;
-$gray-black: #000000;
-$primary-blue: #4d7ef8;
-$primary-navy: #062d8f;
 
 .ppt-list-container {
   background-color: #f8f9fa;
@@ -198,7 +198,7 @@ $primary-navy: #062d8f;
   box-shadow: 0px 0.4px 0.4rem rgba($gray-black, 0.25);
 
   &:hover {
-    box-shadow: 0px 0px 0px 2px rgba($primary-blue, 0.5);
+    box-shadow: 0px 0px 0px 2px $primary-blue;
   }
 }
 

@@ -71,7 +71,7 @@ function PptFocus() {
           <div className="diagnoses-table">
             {diagnosesDetails.map((diagnosis, index) => (
               <div className="diagnosis-entry" key={index}>
-                <span className="disease-name">{diagnosis.name}</span>
+                <span className="condition-name">{diagnosis.name}</span>
                 <span className="icd-code">{diagnosis.icdCode}</span>
               </div>
             ))}
