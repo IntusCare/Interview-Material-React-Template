@@ -1,43 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParticipants } from "../context/PptContext";
+import "./styles.scss";
+import { useNavigate } from "react-router-dom";
+import filterDownIcon from "../assets/orderFilter_Down.png";
+import filterUpIcon from "../assets/orderFilter_Up.png";
 
 function PptList() {
-  //   const { participants, setParticipants } = useParticipants();
-
-  //   useEffect(() => {
-  //     fetch("/api/participants")
-  //       .then((response) => response.json())
-  //       .then((data) => setParticipants(data));
-  //   }, [setParticipants]);
-
-  //   const [participants, setParticipants] = useState([]);
-
-  //   useEffect(() => {
-  //     fetch("/api/participants")
-  //       .then((response) => response.json())
-  //       .then((data) => setParticipants(data))
-  //       .catch((error) => console.error("Error fetching data: ", error));
-  //   }, []);
-
   const { participants } = useParticipants();
-
-  console.log(participants);
+  const navigate = useNavigate();
 
   return (
     <div>
       <h2>Participants List</h2>
-      <ul>
-        {participants.map((participant, index) => (
-          <li key={index}>
-            <Link to={`/participants/${index}`}>
-              {" "}
-              {participant.firstName} {participant.lastName}
-            </Link>
-            - {participant.diagnoses.length} codes
-          </li>
-        ))}
-      </ul>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Participant's Name</th>
+            <th># of ICD Codes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {participants.map((participant, index) => (
+            <tr
+              key={index}
+              className="clickable-row"
+              onClick={() => navigate(`/participants/${index}`)}
+            >
+              <td>
+                {participant.firstName} {participant.lastName}
+              </td>
+              <td>{participant.diagnoses.length}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

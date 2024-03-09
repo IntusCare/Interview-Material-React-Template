@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParticipants } from "../context/PptContext";
 import { useParams } from "react-router-dom";
+import "./styles.scss";
 
 function PptFocus() {
   const { participants, diagnosisCache, setDiagnosisCache } = useParticipants();
@@ -51,16 +52,25 @@ function PptFocus() {
   return (
     <div>
       <h2>
-        Participant Details - {participant?.firstName} {participant?.lastName}
+        {participant?.firstName} {participant?.lastName}
       </h2>
-      <ul>
-        {diagnosesDetails.map((diagnosis, index) => (
-          <li key={index}>
-            {diagnosis.icdCode} - {diagnosis.name} -{" "}
-            {new Date(diagnosis.timestamp).toLocaleDateString()}
-          </li>
-        ))}
-      </ul>
+      <h6>ICD Codes ({diagnosesDetails.length})</h6>
+      <table className="table ppt-focus-table">
+        <thead>
+          <tr>
+            <th>Disease Name</th>
+            <th>ICD Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          {diagnosesDetails.map((diagnosis, index) => (
+            <tr key={index}>
+              <td>{diagnosis.name}</td>
+              <td>{diagnosis.icdCode}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
